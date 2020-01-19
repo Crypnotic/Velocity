@@ -37,6 +37,7 @@ import com.velocitypowered.proxy.protocol.util.FaviconSerializer;
 import com.velocitypowered.proxy.protocol.util.GameProfileSerializer;
 import com.velocitypowered.proxy.scheduler.VelocityScheduler;
 import com.velocitypowered.proxy.server.ServerMap;
+import com.velocitypowered.proxy.service.VelocityServiceManager;
 import com.velocitypowered.proxy.util.AddressUtil;
 import com.velocitypowered.proxy.util.EncryptionUtils;
 import com.velocitypowered.proxy.util.VelocityChannelRegistrar;
@@ -105,11 +106,13 @@ public class VelocityServer implements ProxyServer {
   private final VelocityEventManager eventManager;
   private final VelocityScheduler scheduler;
   private final VelocityChannelRegistrar channelRegistrar = new VelocityChannelRegistrar();
+  private final VelocityServiceManager serviceManager;
 
   VelocityServer(final ProxyOptions options) {
     pluginManager = new VelocityPluginManager(this);
     eventManager = new VelocityEventManager(pluginManager);
     scheduler = new VelocityScheduler(pluginManager);
+    serviceManager = new VelocityServiceManager(pluginManager);
     console = new VelocityConsole(this);
     cm = new ConnectionManager(this);
     servers = new ServerMap(this);
@@ -163,7 +166,7 @@ public class VelocityServer implements ProxyServer {
   }
 
   @EnsuresNonNull({"serverKeyPair", "servers", "pluginManager", "eventManager", "scheduler",
-      "console", "cm", "configuration"})
+          "serviceManager", "console", "cm", "configuration"})
   void start() {
     logger.info("Booting up {} {}...", getVersion().getName(), getVersion().getVersion());
     console.setupStreams();
@@ -575,6 +578,11 @@ public class VelocityServer implements ProxyServer {
   @Override
   public VelocityScheduler getScheduler() {
     return scheduler;
+  }
+
+  @Override
+  public VelocityServiceManager getServiceManager() {
+    return serviceManager;
   }
 
   @Override
