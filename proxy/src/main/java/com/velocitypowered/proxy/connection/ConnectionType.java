@@ -34,4 +34,13 @@ public interface ConnectionType {
    */
   GameProfile addGameProfileTokensIfRequired(GameProfile original,
                                              PlayerInfoForwarding forwardingType);
+
+  /**
+   * Whether this is a forge backed connection.
+   *
+   * @return {@code true} if the connection is forge backed, {@code false} if not
+   */
+  default boolean isForge() {
+    return false;
+  }
 }

@@ -109,6 +109,7 @@ public class MinecraftConnection extends ChannelInboundHandlerAdapter {
 
       if (msg instanceof MinecraftPacket) {
         MinecraftPacket pkt = (MinecraftPacket) msg;
+        System.out.println(pkt);
         if (!pkt.handle(sessionHandler)) {
           sessionHandler.handleGeneric((MinecraftPacket) msg);
         }

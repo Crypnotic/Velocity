@@ -1,14 +1,14 @@
 package com.velocitypowered.proxy.connection.client;
 
 import com.velocitypowered.proxy.connection.backend.VelocityServerConnection;
-import com.velocitypowered.proxy.connection.forge.legacy.LegacyForgeHandshakeClientPhase;
+import com.velocitypowered.proxy.connection.forge.ForgeHandshakeClientPhase;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 
 /**
  * Provides connection phase specific actions.
  *
  * <p>Note that Forge phases are found in the enum
- * {@link LegacyForgeHandshakeClientPhase}.</p>
+ * {@link ForgeHandshakeClientPhase}.</p>
  */
 public interface ClientConnectionPhase {
 

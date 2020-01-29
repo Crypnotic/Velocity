@@ -1,8 +1,8 @@
-package com.velocitypowered.proxy.connection.forge.legacy;
+package com.velocitypowered.proxy.connection.forge;
 
-import static com.velocitypowered.proxy.connection.forge.legacy.LegacyForgeConstants.FORGE_LEGACY_HANDSHAKE_CHANNEL;
-import static com.velocitypowered.proxy.connection.forge.legacy.LegacyForgeConstants.FORGE_LEGACY_HANDSHAKE_RESET_DATA;
-import static com.velocitypowered.proxy.connection.forge.legacy.LegacyForgeConstants.MOD_LIST_DISCRIMINATOR;
+import static com.velocitypowered.proxy.connection.forge.ForgeConstants.FORGE_HANDSHAKE_CHANNEL;
+import static com.velocitypowered.proxy.connection.forge.ForgeConstants.FORGE_HANDSHAKE_RESET_DATA;
+import static com.velocitypowered.proxy.connection.forge.ForgeConstants.MOD_LIST_DISCRIMINATOR;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -11,11 +11,12 @@ import com.velocitypowered.proxy.protocol.ProtocolUtils;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+
 import java.util.List;
 
-class LegacyForgeUtil {
+class ForgeUtil {
 
-  private LegacyForgeUtil() {
+  private ForgeUtil() {
     throw new AssertionError();
   }
 
@@ -26,7 +27,7 @@ class LegacyForgeUtil {
    * @return The discriminator
    */
   static byte getHandshakePacketDiscriminator(PluginMessage message) {
-    Preconditions.checkArgument(message.getChannel().equals(FORGE_LEGACY_HANDSHAKE_CHANNEL));
+    Preconditions.checkArgument(message.getChannel().equals(FORGE_HANDSHAKE_CHANNEL));
     Preconditions.checkArgument(message.content().isReadable());
     return message.content().getByte(0);
   }
@@ -40,8 +41,8 @@ class LegacyForgeUtil {
   static List<ModInfo.Mod> readModList(PluginMessage message) {
     Preconditions.checkNotNull(message, "message");
     Preconditions
-        .checkArgument(message.getChannel().equals(FORGE_LEGACY_HANDSHAKE_CHANNEL),
-            "message is not a FML HS plugin message");
+        .checkArgument(message.getChannel().equals(FORGE_HANDSHAKE_CHANNEL),
+            "message is not a fml:handshake plugin message");
 
     ByteBuf byteBuf = message.content().retainedSlice();
     try {
@@ -73,8 +74,8 @@ class LegacyForgeUtil {
    */
   static PluginMessage resetPacket() {
     PluginMessage msg = new PluginMessage();
-    msg.setChannel(FORGE_LEGACY_HANDSHAKE_CHANNEL);
-    msg.replace(Unpooled.wrappedBuffer(FORGE_LEGACY_HANDSHAKE_RESET_DATA.clone()));
+    msg.setChannel(FORGE_HANDSHAKE_CHANNEL);
+    msg.replace(Unpooled.wrappedBuffer(FORGE_HANDSHAKE_RESET_DATA.clone()));
     return msg;
   }
 }

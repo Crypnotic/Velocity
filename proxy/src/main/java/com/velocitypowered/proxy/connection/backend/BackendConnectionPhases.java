@@ -1,13 +1,13 @@
 package com.velocitypowered.proxy.connection.backend;
 
 import com.velocitypowered.proxy.connection.client.ConnectedPlayer;
-import com.velocitypowered.proxy.connection.forge.legacy.LegacyForgeHandshakeBackendPhase;
+import com.velocitypowered.proxy.connection.forge.ForgeHandshakeBackendPhase;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 
 /**
  * Contains Vanilla {@link BackendConnectionPhase}s.
  *
- * <p>See {@link LegacyForgeHandshakeBackendPhase} for Legacy Forge
+ * <p>See {@link ForgeHandshakeBackendPhase} for Legacy Forge
  * versions</p>
  */
 public final class BackendConnectionPhases {
@@ -32,7 +32,7 @@ public final class BackendConnectionPhases {
                           PluginMessage message) {
       // The connection may be legacy forge. If so, the Forge handler will deal with this
       // for us. Otherwise, we have nothing to do.
-      return LegacyForgeHandshakeBackendPhase.NOT_STARTED.handle(serverConn, player, message);
+      return ForgeHandshakeBackendPhase.NOT_STARTED.handle(serverConn, player, message);
     }
   };
 

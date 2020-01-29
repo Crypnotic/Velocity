@@ -1,11 +1,10 @@
 package com.velocitypowered.proxy.connection.backend;
 
 import static com.velocitypowered.proxy.connection.backend.BackendConnectionPhases.IN_TRANSITION;
-import static com.velocitypowered.proxy.connection.forge.legacy.LegacyForgeHandshakeBackendPhase.HELLO;
+import static com.velocitypowered.proxy.connection.forge.ForgeHandshakeBackendPhase.HELLO;
 
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.proxy.VelocityServer;
-import com.velocitypowered.proxy.connection.ConnectionTypes;
 import com.velocitypowered.proxy.connection.MinecraftConnection;
 import com.velocitypowered.proxy.connection.MinecraftSessionHandler;
 import com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler;
@@ -127,8 +126,7 @@ public class TransitionSessionHandler implements MinecraftSessionHandler {
 
     // If we were in the middle of the Forge handshake, it is not safe to proceed. We must kick
     // the client.
-    if (connection.getType() == ConnectionTypes.LEGACY_FORGE
-        && !serverConn.getPhase().consideredComplete()) {
+    if (connection.getType().isForge() && !serverConn.getPhase().consideredComplete()) {
       resultFuture.complete(ConnectionRequestResults.forUnsafeDisconnect(packet,
           serverConn.getServer()));
     } else {

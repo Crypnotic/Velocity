@@ -131,5 +131,6 @@ public class ArgumentPropertyRegistry {
     dummy("minecraft:int_range", DUMMY);
     dummy("minecraft:float_range", DUMMY);
     dummy("minecraft:time", DUMMY); // added in 1.14
+    dummy("minecraft:", DUMMY); // forge 1.13+ sends empty argument types
   }
 }

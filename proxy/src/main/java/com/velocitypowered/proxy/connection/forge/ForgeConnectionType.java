@@ -1,4 +1,4 @@
-package com.velocitypowered.proxy.connection.forge.legacy;
+package com.velocitypowered.proxy.connection.forge;
 
 import com.velocitypowered.api.util.GameProfile;
 import com.velocitypowered.proxy.config.PlayerInfoForwarding;
@@ -6,16 +6,16 @@ import com.velocitypowered.proxy.connection.ConnectionTypes;
 import com.velocitypowered.proxy.connection.util.ConnectionTypeImpl;
 
 /**
- * Contains extra logic for {@link ConnectionTypes#LEGACY_FORGE}.
+ * Contains extra logic for {@link ConnectionTypes#FORGE}.
  */
-public class LegacyForgeConnectionType extends ConnectionTypeImpl {
+public class ForgeConnectionType extends ConnectionTypeImpl {
 
   private static final GameProfile.Property IS_FORGE_CLIENT_PROPERTY =
       new GameProfile.Property("forgeClient", "true", "");
 
-  public LegacyForgeConnectionType() {
-    super(LegacyForgeHandshakeClientPhase.NOT_STARTED,
-        LegacyForgeHandshakeBackendPhase.NOT_STARTED);
+  public ForgeConnectionType() {
+    super(ForgeHandshakeClientPhase.NOT_STARTED,
+        ForgeHandshakeBackendPhase.NOT_STARTED);
   }
 
   @Override
@@ -30,5 +30,10 @@ public class LegacyForgeConnectionType extends ConnectionTypeImpl {
     }
 
     return original;
+  }
+
+  @Override
+  public boolean isForge() {
+    return true;
   }
 }

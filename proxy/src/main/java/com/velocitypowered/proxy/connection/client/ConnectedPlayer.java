@@ -31,7 +31,7 @@ import com.velocitypowered.proxy.VelocityServer;
 import com.velocitypowered.proxy.connection.MinecraftConnection;
 import com.velocitypowered.proxy.connection.MinecraftConnectionAssociation;
 import com.velocitypowered.proxy.connection.backend.VelocityServerConnection;
-import com.velocitypowered.proxy.connection.forge.legacy.LegacyForgeConstants;
+import com.velocitypowered.proxy.connection.forge.ForgeConstants;
 import com.velocitypowered.proxy.connection.util.ConnectionMessages;
 import com.velocitypowered.proxy.connection.util.ConnectionRequestResults;
 import com.velocitypowered.proxy.connection.util.ConnectionRequestResults.Impl;
@@ -546,7 +546,7 @@ public class ConnectedPlayer implements MinecraftConnectionAssociation, Player {
     }
   }
 
-  public void sendLegacyForgeHandshakeResetPacket() {
+  public void sendForgeHandshakeResetPacket() {
     connectionPhase.resetConnectionPhase(this);
   }
 
@@ -682,14 +682,15 @@ public class ConnectedPlayer implements MinecraftConnectionAssociation, Player {
     boolean minecraftOrFmlMessage;
 
     // By default, all internal Minecraft and Forge channels are forwarded from the server.
-    if (version.compareTo(ProtocolVersion.MINECRAFT_1_12_2) <= 0) {
-      String channel = message.getChannel();
+    String channel = message.getChannel();
+    if (ForgeConstants.isForgeHandshakeChannel(channel)) {
+      minecraftOrFmlMessage = true;
+    } else if (version.compareTo(ProtocolVersion.MINECRAFT_1_12_2) <= 0) {
       minecraftOrFmlMessage = channel.startsWith("MC|")
-          || channel.startsWith(LegacyForgeConstants.FORGE_LEGACY_HANDSHAKE_CHANNEL)
-          || PluginMessageUtil.isLegacyRegister(message)
-          || PluginMessageUtil.isLegacyUnregister(message);
+              || PluginMessageUtil.isLegacyRegister(message)
+              || PluginMessageUtil.isLegacyUnregister(message);
     } else {
-      minecraftOrFmlMessage = message.getChannel().startsWith("minecraft:");
+      minecraftOrFmlMessage = channel.startsWith("minecraft:");
     }
 
     // Otherwise, we need to see if the player already knows this channel or it's known by the
